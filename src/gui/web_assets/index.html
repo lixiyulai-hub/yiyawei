@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#eefaf6" />
+    <title>Yiyawei - 咿呀喂</title>
+    <link rel="icon" href="/app-icon.ico" sizes="any" />
+    <link rel="icon" href="/app-icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/app-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell" aria-label="咿呀喂">
+      <section class="window-glass" aria-label="Yiyawei">
+        <header class="mac-titlebar">
+          <div class="status-pill" id="statusPill">
+            <span class="status-dot"></span>
+            <span id="statusText">预热 ASR</span>
+          </div>
+          <div class="title-stack">
+            <h1>咿呀喂</h1>
+            <p>Yiyawei</p>
+          </div>
+          <div class="title-toggles" aria-label="输出处理设置">
+            <label class="switch-field" for="intelligentOutputSwitch">
+              <span id="intelligentOutputLabel">智能输出</span>
+              <span class="check">
+                <input id="intelligentOutputSwitch" type="checkbox" checked />
+                <span class="switch-track" aria-hidden="true"></span>
+                <span class="switch-face" aria-hidden="true"></span>
+              </span>
+            </label>
+            <label class="switch-field" for="fastSwitch">
+              <span id="fastModeLabel">快速模式</span>
+              <span class="check">
+                <input id="fastSwitch" type="checkbox" checked />
+                <span class="switch-track" aria-hidden="true"></span>
+                <span class="switch-face" aria-hidden="true"></span>
+              </span>
+            </label>
+          </div>
+        </header>
+
+        <section class="control-strip" aria-label="输出设置">
+          <label class="field">
+            <span>输出风格</span>
+            <select id="modeSelect"></select>
+          </label>
+          <label class="field">
+            <span>输出文字</span>
+            <select id="scriptSelect"></select>
+          </label>
+          <label class="field theme-field">
+            <span>视觉风格</span>
+            <select id="themeSelect"></select>
+            <span class="theme-swatches" id="themeSwatches" aria-hidden="true"></span>
+          </label>
+        </section>
+
+        <section class="record-stage shine-border-card" aria-label="录音控制">
+          <span class="shine-border-layer" aria-hidden="true"></span>
+          <span class="spotlight-layer" aria-hidden="true"></span>
+          <span class="edge-light" aria-hidden="true"></span>
+          <canvas class="audio-capsule-canvas" id="audioCapsuleCanvas" aria-hidden="true"></canvas>
+          <div class="stage-side stage-state">
+            <span class="mini-wave" aria-hidden="true">
+              <i></i><i></i><i></i><i></i>
+            </span>
+            <span id="recordTitle">待机中</span>
+          </div>
+
+          <button class="record-orb" id="recordButton" type="button" aria-label="开始录音">
+            <span class="orb-ring"></span>
+            <span class="orb-core">
+              <svg class="mic-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="micGradient" x1="18" y1="6" x2="30" y2="28" gradientUnits="userSpaceOnUse">
+                    <stop class="mic-grad-start" offset="0"></stop>
+                    <stop class="mic-grad-end" offset="1"></stop>
+                  </linearGradient>
+                </defs>
+                <rect class="mic-capsule" x="18" y="6" width="12" height="22" rx="6"></rect>
+                <path class="mic-yoke" d="M12 22v4a12 12 0 0 0 24 0v-4"></path>
+                <path class="mic-stem" d="M24 38V31"></path>
+                <path class="mic-base" d="M16 38h16"></path>
+              </svg>
+            </span>
+          </button>
+
+          <div class="stage-side stage-time" id="recordSubtitle">00:00:00</div>
+          <div class="meter" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </section>
+
+        <section class="info-strip" aria-label="目标与模型信息">
+          <div class="target-line" id="targetText">先点目标输入框，再回到这里开始录音。</div>
+          <dl class="metrics">
+            <div><dt>ASR</dt><dd id="asrMetric">-</dd></div>
+            <div><dt>LLM</dt><dd id="llmMetric">-</dd></div>
+            <div><dt>耗时</dt><dd id="timeMetric">-</dd></div>
+            <div><dt>记录</dt><dd id="recordMetric">-</dd></div>
+          </dl>
+        </section>
+
+        <section class="result-section" aria-label="识别和输出">
+          <div class="text-grid">
+            <article class="text-pane">
+              <div class="pane-header">
+                <span>识别原文</span>
+                <div class="pane-meta">
+                  <small id="rawEditState">ASR</small>
+                  <div class="pane-actions" aria-label="识别原文编辑操作">
+                    <button id="rawRestoreTextButton" class="pane-action" type="button" disabled>恢复</button>
+                    <button id="rawConfirmTextButton" class="pane-action confirm" type="button" disabled>确认</button>
+                  </div>
+                </div>
+              </div>
+              <textarea id="rawText" placeholder="语音识别结果将显示在这里..."></textarea>
+            </article>
+            <article class="text-pane featured">
+              <div class="pane-header">
+                <span>最终输出</span>
+                <div class="pane-meta">
+                  <small id="finalEditState">Ready</small>
+                  <div class="pane-actions" aria-label="编辑操作">
+                    <button id="finalRestoreTextButton" class="pane-action" type="button" disabled>恢复</button>
+                    <button id="finalConfirmTextButton" class="pane-action confirm" type="button" disabled>确认</button>
+                  </div>
+                </div>
+              </div>
+              <textarea id="finalText" placeholder="编译后的最终文本将显示在这里..."></textarea>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+    <dialog id="confirmDialog" class="confirm-dialog">
+      <form method="dialog" class="confirm-card">
+        <h2 id="confirmDialogTitle">确认使用当前修改？</h2>
+        <p id="confirmDialogMessage">确认后会保存这次手动改动，并把当前最终输出粘贴到目标窗口。</p>
+        <div class="dialog-actions">
+          <button id="confirmNoButton" value="no" type="submit">否</button>
+          <button id="confirmYesButton" value="yes" type="submit">是</button>
+        </div>
+      </form>
+    </dialog>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

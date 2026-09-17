@@ -1,0 +1,13 @@
+-r requirements-dev.txt
+
+# Lightweight packages imported by the test and offline preflight surface.
+pyyaml>=6.0.1
+requests>=2.31.0
+sounddevice>=0.4.6
+soundfile>=0.12.1
+numpy>=1.24.0
+pyperclip>=1.8.2
+pydantic>=2.5.0
+
+# ASR/model runtime packages are intentionally not installed in CI:
+# funasr, modelscope, torch, torchaudio

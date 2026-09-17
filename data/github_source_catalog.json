@@ -1,0 +1,274 @@
+[
+  {
+    "repo": "SWE-bench/SWE-bench",
+    "url": "https://github.com/SWE-bench/SWE-bench",
+    "stars": 5159,
+    "license": "MIT",
+    "tier": "A",
+    "source_type": "software_engineering_benchmark",
+    "use_for": [
+      "code_fix",
+      "bug_report",
+      "test_plan"
+    ],
+    "import_policy": "extract_issue_style_and_task_shapes_only",
+    "runtime_policy": "offline_candidate_source",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "microsoft/CodeXGLUE",
+    "url": "https://github.com/microsoft/CodeXGLUE",
+    "stars": 1826,
+    "license": "MIT",
+    "tier": "A",
+    "source_type": "code_intelligence_dataset",
+    "use_for": [
+      "code_fix",
+      "test_plan"
+    ],
+    "import_policy": "template_reference_and_small_reviewed_samples",
+    "runtime_policy": "offline_candidate_source",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "shibing624/pycorrector",
+    "url": "https://github.com/shibing624/pycorrector",
+    "stars": 6462,
+    "license": "Apache-2.0",
+    "tier": "A",
+    "source_type": "chinese_text_correction",
+    "use_for": [
+      "text_polishing",
+      "asr_error_repair"
+    ],
+    "import_policy": "reference_error_types_and_build_internal_regression_samples",
+    "runtime_policy": "offline_candidate_source",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "brightmart/nlp_chinese_corpus",
+    "url": "https://github.com/brightmart/nlp_chinese_corpus",
+    "stars": 9901,
+    "license": "MIT",
+    "tier": "A",
+    "source_type": "chinese_corpus_index",
+    "use_for": [
+      "generic_task",
+      "text_polishing",
+      "domain_terms"
+    ],
+    "import_policy": "use_as_index_verify_each_subdataset_before_import",
+    "runtime_policy": "offline_candidate_source",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "LAION-AI/Open-Assistant",
+    "url": "https://github.com/LAION-AI/Open-Assistant",
+    "stars": 37398,
+    "license": "Apache-2.0",
+    "tier": "A",
+    "source_type": "assistant_instruction_data",
+    "use_for": [
+      "generic_task",
+      "text_polishing",
+      "business_analysis",
+      "product_planning"
+    ],
+    "import_policy": "sample_task_intent_shapes_not_long_dialogues",
+    "runtime_policy": "offline_candidate_source",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "databrickslabs/dolly",
+    "url": "https://github.com/databrickslabs/dolly",
+    "stars": 10794,
+    "license": "Apache-2.0",
+    "tier": "A",
+    "source_type": "instruction_dataset",
+    "use_for": [
+      "task_type_taxonomy",
+      "template_fragments"
+    ],
+    "import_policy": "reference_categories_and_output_requirements",
+    "runtime_policy": "offline_candidate_source",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "yizhongw/self-instruct",
+    "url": "https://github.com/yizhongw/self-instruct",
+    "stars": 4600,
+    "license": "Apache-2.0",
+    "tier": "A",
+    "source_type": "instruction_generation_method",
+    "use_for": [
+      "sample_generation",
+      "sample_review"
+    ],
+    "import_policy": "use_methodology_for_internal_candidate_generation",
+    "runtime_policy": "offline_candidate_source",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "dair-ai/Prompt-Engineering-Guide",
+    "url": "https://github.com/dair-ai/Prompt-Engineering-Guide",
+    "stars": 75589,
+    "license": "MIT",
+    "tier": "B",
+    "source_type": "prompt_engineering_reference",
+    "use_for": [
+      "template_fragments",
+      "quality_gate"
+    ],
+    "import_policy": "reference_structure_do_not_copy_tutorial_text",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "openai/openai-cookbook",
+    "url": "https://github.com/openai/openai-cookbook",
+    "stars": 74145,
+    "license": "MIT",
+    "tier": "B",
+    "source_type": "llm_api_and_eval_reference",
+    "use_for": [
+      "quality_gate",
+      "structured_output",
+      "evals"
+    ],
+    "import_policy": "reference_eval_and_structured_output_patterns",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "promptfoo/promptfoo",
+    "url": "https://github.com/promptfoo/promptfoo",
+    "stars": 22168,
+    "license": "MIT",
+    "tier": "B",
+    "source_type": "prompt_eval_framework",
+    "use_for": [
+      "regression_tests",
+      "quality_gate"
+    ],
+    "import_policy": "reference_assertion_patterns",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "guardrails-ai/guardrails",
+    "url": "https://github.com/guardrails-ai/guardrails",
+    "stars": 7000,
+    "license": "Apache-2.0",
+    "tier": "B",
+    "source_type": "guardrails_reference",
+    "use_for": [
+      "quality_gate",
+      "schema_validation"
+    ],
+    "import_policy": "reference_guardrail_patterns_no_runtime_dependency",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "microsoft/promptflow",
+    "url": "https://github.com/microsoft/promptflow",
+    "stars": 11146,
+    "license": "MIT",
+    "tier": "B",
+    "source_type": "llm_workflow_reference",
+    "use_for": [
+      "observability",
+      "evaluation_workflow"
+    ],
+    "import_policy": "reference_pipeline_observability",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "guidance-ai/guidance",
+    "url": "https://github.com/guidance-ai/guidance",
+    "stars": 21497,
+    "license": "MIT",
+    "tier": "B",
+    "source_type": "constrained_generation_reference",
+    "use_for": [
+      "structured_output",
+      "prompt_contract"
+    ],
+    "import_policy": "reference_contract_patterns",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "ant-design/ant-design",
+    "url": "https://github.com/ant-design/ant-design",
+    "stars": 98343,
+    "license": "MIT",
+    "tier": "B",
+    "source_type": "design_system",
+    "use_for": [
+      "ui_ux_design",
+      "enterprise_system"
+    ],
+    "import_policy": "reference_ui_terms_and_acceptance_dimensions",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "alexpate/awesome-design-systems",
+    "url": "https://github.com/alexpate/awesome-design-systems",
+    "stars": 25044,
+    "license": "Unlicense",
+    "tier": "B",
+    "source_type": "design_system_index",
+    "use_for": [
+      "ui_ux_design"
+    ],
+    "import_policy": "use_as_design_reference_index",
+    "runtime_policy": "offline_reference_only",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "f/prompts.chat",
+    "url": "https://github.com/f/awesome-chatgpt-prompts",
+    "stars": 163672,
+    "license": "NOASSERTION",
+    "tier": "C",
+    "source_type": "prompt_collection",
+    "use_for": [
+      "prompt_category_reference"
+    ],
+    "import_policy": "do_not_copy_content_use_categories_only",
+    "runtime_policy": "index_only_no_import",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "fighting41love/funNLP",
+    "url": "https://github.com/fighting41love/funNLP",
+    "stars": 81247,
+    "license": "NOASSERTION",
+    "tier": "C",
+    "source_type": "chinese_nlp_resource_index",
+    "use_for": [
+      "source_discovery"
+    ],
+    "import_policy": "index_only_verify_original_sources",
+    "runtime_policy": "index_only_no_import",
+    "hot_path_allowed": false
+  },
+  {
+    "repo": "logpai/loghub",
+    "url": "https://github.com/logpai/loghub",
+    "stars": 2740,
+    "license": "NOASSERTION",
+    "tier": "C",
+    "source_type": "log_dataset_index",
+    "use_for": [
+      "bug_report",
+      "log_context"
+    ],
+    "import_policy": "index_only_due_license_uncertainty",
+    "runtime_policy": "index_only_no_import",
+    "hot_path_allowed": false
+  }
+]

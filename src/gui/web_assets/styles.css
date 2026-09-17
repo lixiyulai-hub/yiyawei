@@ -1,0 +1,131 @@
+@import url("./css/tokens.css");
+@import url("./css/themes.css");
+@import url("./css/base.css");
+@import url("./css/layout.css");
+@import url("./css/controls.css");
+@import url("./css/recording.css");
+@import url("./css/editor.css");
+@media (max-width: 720px) {
+  .app-shell {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding: 8px;
+  }
+
+  .window-glass {
+    padding: 9px 10px 10px;
+  }
+
+  .mac-titlebar {
+    grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
+  }
+
+  .info-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .metrics div:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    overflow: hidden;
+  }
+
+  .app-shell {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    width: 100vw;
+    margin: 0;
+    padding: 8px;
+  }
+
+  .window-glass {
+    height: 100%;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    grid-template-rows: repeat(4, max-content) minmax(118px, 1fr);
+  }
+
+  .mac-titlebar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 8px;
+  }
+
+  .title-stack {
+    grid-column: auto;
+  }
+
+  .status-pill {
+    grid-column: auto;
+    justify-self: center;
+  }
+
+  .switch-field {
+    grid-column: auto;
+    justify-self: center;
+  }
+
+  .control-strip,
+  .record-stage,
+  .text-grid,
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .record-stage {
+    justify-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .stage-state {
+    order: 2;
+  }
+
+  .record-orb {
+    order: 1;
+  }
+
+  .stage-time {
+    order: 3;
+  }
+
+  .metrics div {
+    border-left: 0;
+    border-top: 1px solid rgba(132, 147, 170, 0.18);
+    padding: 8px 0 0;
+  }
+
+  .target-line {
+    white-space: normal;
+  }
+
+  .text-pane {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .audio-capsule-canvas {
+    opacity: 0.22;
+  }
+}

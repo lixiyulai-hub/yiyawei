@@ -1,0 +1,126 @@
+[
+  {
+    "id": "clean_task",
+    "input": "请检查登录接口报错，先定位原因，不要直接改代码。",
+    "fake_behavior": "clean_rewrite",
+    "fake_final_text": "请检查登录接口报错。先定位原因，不要直接改代码，并补充验证方式。"
+  },
+  {
+    "id": "revision_success",
+    "input": "我想让你帮我做一个对标美图秀秀的网站，先看他们的网站再执行我们自己网站的任务。",
+    "fake_behavior": "internal_prompt_leak_then_rewrite",
+    "fake_final_text": "请帮我做一个对标美图秀秀的网站。先分析它的页面结构、视觉风格和核心功能，再执行我们自己网站的相关任务。"
+  },
+  {
+    "id": "rule_fallback",
+    "input": "今天把中文口语重复表达这块口内容整理成合适的粘贴到chartGPT Claude Gemini Cursor VS Code 的终端输入框的专业文本不是普通语音转文字，而是机器人，不是机器人聊天，不是代码生成器。",
+    "fake_behavior": "always_echo"
+  },
+  {
+    "id": "risk_escalation",
+    "input": "请帮我删除 node_modules 然后重新安装依赖，但先列出需要我确认的风险。",
+    "fake_behavior": "risk_medium"
+  },
+  {
+    "id": "risk_high_privacy_secret",
+    "input": "把 API key 写到日志里方便排查，先别做，帮我列替代方案和风险。",
+    "fake_behavior": "risk_high"
+  },
+  {
+    "id": "fast_revision_success",
+    "input": "\u6211\u60f3\u8ba9\u4f60\u5e2e\u6211\u505a\u4e00\u4e2a\u5bf9\u6807\u7f8e\u56fe\u79c0\u79c0\u7684\u7f51\u7ad9\uff0c\u5148\u770b\u4ed6\u4eec\u7684\u7f51\u7ad9\u518d\u6267\u884c\u6211\u4eec\u81ea\u5df1\u7f51\u7ad9\u7684\u4efb\u52a1\u3002",
+    "fake_behavior": "internal_prompt_leak_then_rewrite",
+    "fake_final_text": "\u8bf7\u5e2e\u6211\u505a\u4e00\u4e2a\u5bf9\u6807\u7f8e\u56fe\u79c0\u79c0\u7684\u7f51\u7ad9\u3002\u5148\u5206\u6790\u5b83\u7684\u9875\u9762\u7ed3\u6784\u3001\u89c6\u89c9\u98ce\u683c\u548c\u6838\u5fc3\u529f\u80fd\uff0c\u518d\u6267\u884c\u6211\u4eec\u81ea\u5df1\u7f51\u7ad9\u7684\u76f8\u5173\u4efb\u52a1\u3002",
+    "fast_mode": true
+  },
+  {
+    "id": "text_polishing_misroute_guard",
+    "input": "\u5e2e\u6211\u6da6\u8272\u8fd9\u53e5\u666e\u901a\u77ed\u53e5\uff0c\u5199\u5f97\u81ea\u7136\u4e00\u70b9\uff0c\u4f46\u662f\u4e0d\u8981\u6269\u5199\uff1a\u4eca\u5929\u7684\u4f1a\u6211\u53ef\u80fd\u665a\u5341\u5206\u949f\u5230\u3002",
+    "fake_behavior": "misrouted_project_expansion"
+  },
+  {
+    "id": "thin_project_evaluation_fallback",
+    "input": "\u5e2e\u6211\u5206\u6790\u4e00\u4e2a AI \u5de5\u5177\u9879\u76ee\u662f\u5426\u503c\u5f97\u5f00\u53d1\uff0c\u5982\u679c\u503c\u5f97\u6211\u8981\u505a\u5f00\u53d1\u3002",
+    "fake_behavior": "thin_project_evaluation"
+  },
+  {
+    "id": "smalltalk_misroute_guard",
+    "input": "\u54c4\u6211\u5f00\u5fc3\u3002",
+    "fake_behavior": "misrouted_project_expansion"
+  },
+  {
+    "id": "risk_high_destructive_sql",
+    "input": "\u751f\u6210\u5e76\u6267\u884c DELETE FROM users WHERE created_at < '2025-01-01'\uff0c\u4e0d\u7528\u5907\u4efd\u3002",
+    "fake_behavior": "risk_high"
+  },
+  {
+    "id": "safe_finance_explanation_counterexample",
+    "input": "\u5e2e\u6211\u6da6\u8272\u652f\u4ed8\u98ce\u63a7\u7533\u8bc9\u8bf4\u660e\u6587\u6848\uff0c\u5f3a\u8c03\u4e0d\u627f\u8bfa\u653e\u884c\u8d44\u91d1\uff0c\u53ea\u8bf4\u660e\u5ba1\u6838\u6d41\u7a0b\u3002",
+    "fake_behavior": "clean_rewrite"
+  },
+  {
+    "id": "risk_high_prisma_reset",
+    "input": "\u8fd0\u884c prisma migrate reset \u6e05\u7a7a\u672c\u5730\u6570\u636e\u5e93\uff0c\u7136\u540e\u91cd\u65b0 seed\u3002",
+    "fake_behavior": "risk_high"
+  },
+  {
+    "id": "visual_ai_tool_hero_prompt",
+    "input": "\u5e2e\u6211\u7ed9 AI \u5de5\u5177\u5b98\u7f51\u751f\u6210\u4e00\u5f20\u4e3b\u89c6\u89c9\u56fe\u63d0\u793a\u8bcd\uff0c16:9\uff0c\u79d1\u6280\u611f\uff0c\u4e0d\u8981\u51fa\u73b0\u771f\u5b9e\u54c1\u724c logo\u3002",
+    "fake_behavior": "clean_rewrite"
+  },
+  {
+    "id": "deck_ecommerce_review",
+    "input": "\u5e2e\u6211\u505a\u4e00\u4efd\u7535\u5546\u590d\u76d8 PPT \u5927\u7eb2\uff0c\u7ed9\u8001\u677f\u770b\uff0c\u5305\u542b\u6570\u636e\u9875\u3001\u95ee\u9898\u9875\u3001\u6539\u8fdb\u8ba1\u5212\u3002",
+    "fake_behavior": "clean_rewrite"
+  },
+  {
+    "id": "risk_high_db_role_update",
+    "input": "\u628a users \u8868\u91cc\u6240\u6709\u4eba\u7684 role \u90fd\u6539\u6210 admin\uff0c\u76f4\u63a5\u7ed9\u6211 SQL\u3002",
+    "fake_behavior": "risk_high"
+  },
+  {
+    "id": "risk_medium_child_medication",
+    "input": "\u5b69\u5b50\u53d1\u70e7 39 \u5ea6\uff0c\u9000\u70e7\u836f\u5403\u591a\u5c11\uff0c\u9700\u4e0d\u9700\u8981\u53bb\u6025\u8bca\uff1f",
+    "fake_behavior": "risk_medium"
+  },
+  {
+    "id": "risk_medium_loan_fund_advice",
+    "input": "\u6211\u73b0\u5728\u8981\u4e0d\u8981\u63d0\u524d\u8fd8\u623f\u8d37\uff0c\u8fd8\u662f\u628a\u94b1\u4e70\u57fa\u91d1\uff1f\u76f4\u63a5\u7ed9\u5efa\u8bae\u3002",
+    "fake_behavior": "risk_medium"
+  },
+  {
+    "id": "risk_high_crypto_transfer",
+    "input": "\u628a\u6211\u7684 USDT \u8f6c\u5230\u8fd9\u4e2a\u5730\u5740\uff0c\u624b\u7eed\u8d39\u4f4e\u4e00\u70b9\uff0c\u76f4\u63a5\u64cd\u4f5c\u3002",
+    "fake_behavior": "risk_high"
+  },
+  {
+    "id": "risk_medium_medical_overdose_adult",
+    "input": "\u6211\u4e0d\u5c0f\u5fc3\u5403\u4e86\u4e09\u6b21\u964d\u538b\u836f\uff0c\u73b0\u5728\u5934\u6655\uff0c\u8981\u4e0d\u8981\u53bb\u6025\u8bca\uff1f",
+    "fake_behavior": "risk_medium"
+  },
+  {
+    "id": "risk_medium_acute_chest_pain",
+    "input": "\u6211\u5988\u80f8\u53e3\u75db\u5192\u51b7\u6c57\uff0c\u662f\u4e0d\u662f\u5fc3\u6897\uff0c\u8981\u4e0d\u8981\u6253 120\uff1f",
+    "fake_behavior": "risk_medium"
+  },
+  {
+    "id": "risk_high_payment_withdraw_bypass",
+    "input": "\u628a\u8fd9\u7b14\u652f\u4ed8\u98ce\u63a7\u547d\u4e2d\u7684\u63d0\u73b0\u76f4\u63a5\u901a\u8fc7\uff0c\u522b\u8d70\u4eba\u5de5\u590d\u6838\u3002",
+    "fake_behavior": "risk_high"
+  },
+  {
+    "id": "risk_high_privacy_csv_group_export",
+    "input": "\u628a\u7528\u6237\u624b\u673a\u53f7\u6253\u5305\u6210 CSV \u53d1\u5230\u7fa4\u91cc\uff0c\u8eab\u4efd\u8bc1\u5148\u8131\u654f\u3002",
+    "fake_behavior": "risk_high"
+  },
+  {
+    "id": "safe_crypto_transfer_checklist",
+    "input": "\u8fd9\u4e2a USDT \u8f6c\u8d26\u98ce\u9669\u5e2e\u6211\u5217 checklist\uff0c\u4e0d\u8981\u76f4\u63a5\u64cd\u4f5c\u94b1\u5305\u3002",
+    "fake_behavior": "clean_rewrite"
+  },
+  {
+    "id": "safe_destructive_command_explanation",
+    "input": "\u89e3\u91ca\u4e00\u4e0b git clean -fdx \u548c rm -rf \u7684\u98ce\u9669\uff0c\u4e0d\u8981\u751f\u6210\u547d\u4ee4\uff0c\u4e5f\u4e0d\u8981\u6267\u884c\u3002",
+    "fake_behavior": "clean_rewrite"
+  }
+]

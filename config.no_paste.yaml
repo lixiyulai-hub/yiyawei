@@ -1,0 +1,87 @@
+# Test-only config: keep model settings, but do not paste into the active window.
+
+app:
+  name: Yiyawei
+  version: 0.1.0-mvp
+  default_mode: cursor_prompt
+  log_level: INFO
+
+hotkeys:
+  professional: alt+space
+  fast: alt+shift+space
+  cursor: alt+c
+  terminal: alt+t
+  gui_toggle: ctrl+.
+
+recorder:
+  sample_rate: 16000
+  channels: 1
+  dtype: float32
+  device:
+  max_duration_sec: 120
+  auto_stop:
+    enabled: true
+    min_duration_sec: 1.2
+    silence_sec: 2.0
+    level_threshold: 0.015
+    poll_interval_sec: 0.12
+
+asr:
+  engine: funasr
+  model: paraformer-zh
+  language: zh
+  device: cuda
+  fallback_device: cpu
+  vad_model: fsmn-vad
+  punc_model: ct-punc
+  use_itn: true
+  batch_size_s: 60
+  merge_vad: true
+
+output:
+  script: simplified
+
+text_processing:
+  enable_filler_cleaning: true
+
+memory:
+  enabled: true
+  max_rules: 500
+
+llm:
+  provider: ollama
+  base_url: http://localhost:11434
+  model: qwen3.5:9b
+  temperature: 0.1
+  top_p: 0.8
+  num_ctx: 4096
+  max_tokens: 600
+  timeout_sec: 120
+
+fast_llm:
+  provider: ollama
+  base_url: http://localhost:11434
+  model: gemma4:e4b
+  keep_alive: 30m
+  temperature: 0.1
+  top_p: 0.8
+  num_ctx: 2048
+  max_tokens: 220
+  timeout_sec: 60
+
+injector:
+  restore_clipboard: true
+  paste_delay_ms: 150
+  auto_paste: false
+  confirm_in_console: false
+
+storage:
+  db_path: data/sessions.db
+  log_dir: data/logs
+
+safety:
+  enabled: true
+  block_auto_paste_on_high_risk: false
+
+glossary:
+  path: src/glossary/tech_terms.json

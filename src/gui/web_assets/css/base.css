@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background:
+    linear-gradient(125deg, var(--ambient-a), transparent 34%),
+    linear-gradient(214deg, var(--ambient-b), transparent 44%),
+    linear-gradient(20deg, transparent 0 54%, var(--ambient-c) 78%, transparent 100%),
+    linear-gradient(145deg, var(--bg-base) 0%, var(--bg-mid) 48%, var(--bg-end) 100%);
+  overflow: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  background:
+    linear-gradient(112deg, transparent 0 18%, rgba(255, 255, 255, 0.52) 36%, transparent 58%),
+    linear-gradient(34deg, transparent 0 56%, rgba(255, 255, 255, 0.4) 72%, transparent 90%);
+  filter: blur(16px);
+  opacity: 0.76;
+}
+
+body::after {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(180deg, transparent 0%, black 18%, black 82%, transparent 100%);
+  opacity: 0.18;
+}
+
+button,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 8px;
+  display: grid;
+  place-items: stretch;
+  overflow: hidden;
+}
+
+.window-glass,
+.control-strip,
+.record-stage,
+.info-strip,
+.text-pane {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--stroke-strong);
+  background:
+    linear-gradient(154deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.48)),
+    var(--glass);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.42),
+    0 16px 42px rgba(31, 42, 56, 0.08);
+  backdrop-filter: blur(34px) saturate(1.55);
+  -webkit-backdrop-filter: blur(34px) saturate(1.55);
+}
+
+.window-glass::before,
+.window-glass::after,
+.control-strip::before,
+.record-stage::before,
+.info-strip::before,
+.text-pane::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.window-glass::before {
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, 0.74), transparent 28% 72%, rgba(var(--accent-rgb), 0.08)),
+    linear-gradient(180deg, rgba(var(--accent-rgb), 0.09), transparent 36%);
+  opacity: 0.9;
+}
+
+.window-glass::after {
+  inset: 1px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  opacity: 0.82;
+}
+
+.control-strip::before,
+.record-stage::before,
+.info-strip::before,
+.text-pane::before {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.62), transparent 34% 72%, rgba(255, 255, 255, 0.26));
+  opacity: 0.64;
+}

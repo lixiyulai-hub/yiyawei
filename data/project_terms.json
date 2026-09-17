@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "terms": [
+    {
+      "canonical": "Yiyawei",
+      "aliases": ["咿呀喂", "Voice Prompt Compiler", "语音指令编译器", "VPC"],
+      "category": "product"
+    },
+    {
+      "canonical": "FunASR",
+      "aliases": ["Paraformer", "Paraformer-zh"],
+      "category": "asr"
+    },
+    {
+      "canonical": "Ollama",
+      "aliases": ["local LLM", "本地 LLM"],
+      "category": "llm"
+    },
+    {
+      "canonical": "LM Studio",
+      "aliases": ["OpenAI-compatible local service"],
+      "category": "llm"
+    },
+    {
+      "canonical": "task router",
+      "aliases": ["任务路由器", "route detector"],
+      "category": "auditor"
+    },
+    {
+      "canonical": "quality gate",
+      "aliases": ["质量门", "质量闸门"],
+      "category": "auditor"
+    },
+    {
+      "canonical": "plugin bridge",
+      "aliases": ["local HTTP bridge", "插件桥"],
+      "category": "integration"
+    },
+    {
+      "canonical": "hot path",
+      "aliases": ["热路径", "runtime hot path"],
+      "category": "performance"
+    },
+    {
+      "canonical": "Cursor",
+      "aliases": ["VS Code", "Codex"],
+      "category": "target"
+    },
+    {
+      "canonical": "governance artifact",
+      "aliases": ["治理证据", "release receipt"],
+      "category": "governance"
+    }
+  ]
+}

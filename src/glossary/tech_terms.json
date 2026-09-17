@@ -1,0 +1,25 @@
+{
+  "Redis": ["瑞迪斯", "red is", "readies", "redis"],
+  "Prisma": ["普瑞斯马", "普里斯马", "prisma"],
+  "Next.js": ["内克斯特", "nextjs", "next js", "next点js"],
+  "Supabase": ["苏帕贝斯", "super base", "supabase"],
+  "Vite": ["维特", "外特", "vite"],
+  "React": ["瑞艾克特", "react"],
+  "middleware": ["中间件", "middle ware", "middleware"],
+  "API route": ["接口路由", "api 路由", "路由接口", "api route"],
+  "environment variable": ["环境变量", "env", "environment variable"],
+  "migration": ["数据库迁移", "迁移文件", "migration"],
+  "Docker": ["多克尔", "docker"],
+  "SQLite": ["sq lite", "SQL light", "sqlite"],
+  "PostgreSQL": ["postgres", "postgre", "postgresql"],
+  "Cursor": ["科瑟", "cursor"],
+  "TypeScript": ["typescript", "ts"],
+  "JavaScript": ["javascript", "js"],
+  "Git": ["git", "吉特"],
+  "commit": ["提交", "commit"],
+  "pull request": ["pr", "pull request", "合并请求"]
+  ,
+  "ASR": ["asr"],
+  "PyTorch": ["pytorch", "py torch", "拍touch", "拍 touch", "派torch", "派 torch"],
+  "CUDA": ["cuda", "扣达", "酷达", "库达"]
+}

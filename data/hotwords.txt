@@ -1,0 +1,41 @@
+Cursor
+Codex
+ChatGPT
+Claude
+Gemini
+Ollama
+LM Studio
+Windows
+WeChat
+微信
+API
+JSON
+React
+Next.js
+Vite
+Vue
+Prisma
+Supabase
+Redis
+Git
+commit
+pull request
+terminal
+PowerShell
+Python
+JavaScript
+TypeScript
+Node.js
+npm
+pnpm
+Docker
+SQLite
+PostgreSQL
+MCP
+VS Code
+nice
+yes
+no
+ok
+Reveal
+Korea

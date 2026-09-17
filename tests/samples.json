@@ -1,0 +1,36 @@
+[
+  {
+    "name": "改口",
+    "input": "帮我看一下登录页，不对不是登录页，是注册页，手机号验证码那里状态是不是没更新。",
+    "expected_contains": ["注册页", "手机号验证码", "状态"],
+    "expected_not_contains": ["登录页"],
+    "mode": "cursor_prompt"
+  },
+  {
+    "name": "约束",
+    "input": "你帮我直接，不对，不要直接改代码，先告诉我问题在哪。",
+    "expected_contains": ["不要直接", "分析", "问题"],
+    "mode": "cursor_prompt"
+  },
+  {
+    "name": "撤销",
+    "input": "帮我写一个删除用户的接口，算了前面那个不要，我是想让你检查用户列表为什么加载不出来。",
+    "expected_contains": ["用户列表", "加载"],
+    "expected_not_contains": ["删除用户", "接口"],
+    "mode": "cursor_prompt"
+  },
+  {
+    "name": "终端风险",
+    "input": "帮我把 node modules 删了重新装一下。",
+    "expected_risk_min": "medium",
+    "expected_need_confirm": true,
+    "mode": "terminal_command"
+  },
+  {
+    "name": "编程指令",
+    "input": "你帮我看下这个接口为什么返回空，应该不是数据库没数据，可能是查询条件错了，不要直接改，先分析。",
+    "expected_contains": ["接口", "返回空", "分析"],
+    "expected_constraints_hint": "不要直接改",
+    "mode": "cursor_prompt"
+  }
+]

@@ -1,0 +1,44 @@
+:root {
+  color-scheme: light;
+  --ink: #172033;
+  --muted: #697183;
+  --soft: #9aa3b2;
+  --control-ink: #172033;
+  --control-muted: #5f6b7d;
+  --control-soft: rgba(105, 113, 131, 0.62);
+  --control-placeholder: rgba(105, 113, 131, 0.58);
+  --control-bg: rgba(255, 255, 255, 0.58);
+  --control-bg-strong: rgba(255, 255, 255, 0.74);
+  --control-border: rgba(255, 255, 255, 0.76);
+  --control-sheen-a: rgba(255, 255, 255, 0.9);
+  --control-sheen-b: rgba(224, 232, 239, 0.58);
+  --control-shadow: rgba(31, 42, 56, 0.1);
+  --bg-base: #f8fbff;
+  --bg-mid: #eef4fb;
+  --bg-end: #fff5f2;
+  --ambient-a: rgba(255, 255, 255, 0.72);
+  --ambient-b: rgba(210, 224, 246, 0.52);
+  --ambient-c: rgba(255, 205, 198, 0.46);
+  --panel-tint: rgba(255, 255, 255, 0.58);
+  --panel-tint-strong: rgba(255, 255, 255, 0.78);
+  --glass: rgba(255, 255, 255, 0.66);
+  --glass-strong: rgba(255, 255, 255, 0.84);
+  --glass-edge: rgba(255, 255, 255, 0.92);
+  --stroke: rgba(141, 153, 174, 0.18);
+  --stroke-strong: rgba(255, 255, 255, 0.76);
+  --shadow: rgba(43, 54, 72, 0.15);
+  --accent: #ff715f;
+  --accent-strong: #e55349;
+  --accent-soft: rgba(255, 113, 95, 0.16);
+  --accent-rgb: 255, 113, 95;
+  --focus: #5a8cff;
+  --focus-rgb: 90, 140, 255;
+  --green: #3fb87f;
+  --danger: #e04b43;
+  --radius-xl: 26px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI Variable", "Segoe UI", "Microsoft YaHei UI", "PingFang SC",
+    sans-serif;
+}

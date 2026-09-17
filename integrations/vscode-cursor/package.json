@@ -1,0 +1,49 @@
+{
+  "name": "voice-prompt-compiler-local-bridge",
+  "displayName": "Yiyawei Local Bridge",
+  "description": "Process selected text through the local Yiyawei bridge.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onCommand:voicePromptCompiler.processSelection",
+    "onCommand:voicePromptCompiler.processInput"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "voicePromptCompiler.processSelection",
+        "title": "Yiyawei: Process Selection"
+      },
+      {
+        "command": "voicePromptCompiler.processInput",
+        "title": "Yiyawei: Process Input"
+      }
+    ],
+    "configuration": {
+      "title": "Yiyawei",
+      "properties": {
+        "voicePromptCompiler.bridgeUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8765",
+          "description": "Loopback URL for the local Yiyawei daemon."
+        },
+        "voicePromptCompiler.token": {
+          "type": "string",
+          "default": "",
+          "description": "Optional bearer token for the local daemon."
+        },
+        "voicePromptCompiler.mode": {
+          "type": "string",
+          "default": "cursor_prompt",
+          "enum": ["professional", "cursor_prompt", "terminal_command"],
+          "description": "Processing mode sent to the local daemon."
+        }
+      }
+    }
+  }
+}
