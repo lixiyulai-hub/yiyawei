@@ -22,6 +22,11 @@ def _run_node(program: str) -> subprocess.CompletedProcess[str]:
     )
 
 
+def test_api_client_uses_same_origin_credentials():
+    source = (Path(ASSETS_DIR) / "js" / "api-client.js").read_text(encoding="utf-8")
+    assert 'credentials: "same-origin"' in source
+
+
 def test_extracted_state_modules_import_without_a_dom_in_node():
     module_urls = [
         _module_url("state-machine.js"),

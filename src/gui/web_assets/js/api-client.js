@@ -15,6 +15,7 @@ export function createApiClient(fetchImpl = globalThis.fetch) {
 
   return async function api(path, options = {}) {
     const response = await fetchImpl(path, {
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       ...options,
     });

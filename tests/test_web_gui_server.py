@@ -67,6 +67,11 @@ def _request(
     return response.status, response_headers, data
 
 
+def _session_path(controller: WebGuiController, path: str) -> str:
+    separator = "&" if "?" in path else "?"
+    return f"{path}{separator}session={controller._web_gui_session_token}"
+
+
 def _assert_json_response(
     response: tuple[int, dict[str, str], bytes],
     expected: dict[str, Any],
@@ -110,11 +115,16 @@ def test_real_server_routes_call_current_controller_facades_with_exact_envelopes
         monkeypatch.setattr(controller, "confirm_text", route("confirm"))
         monkeypatch.setattr(controller, "stop_recording", lambda: {"route": "stop"})
 
-        bootstrap = _request(port, "GET", "/api/bootstrap?fresh=1")
+        bootstrap = _request(
+            port, "GET", _session_path(controller, "/api/bootstrap?fresh=1")
+        )
         _assert_json_response(bootstrap, {"route": "bootstrap", "文本": "你好"})
         assert "你好".encode("utf-8") in bootstrap[2]
         assert b"\\u4f60" not in bootstrap[2]
-        _assert_json_response(_request(port, "GET", "/api/state"), {"route": "state"})
+        _assert_json_response(
+            _request(port, "GET", _session_path(controller, "/api/state")),
+            {"route": "state"},
+        )
 
         payload = {"文本": "编辑", "value": 3}
         encoded = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -127,11 +137,17 @@ def test_real_server_routes_call_current_controller_facades_with_exact_envelopes
             ("/api/confirm", "confirm"),
         ):
             _assert_json_response(
-                _request(port, "POST", path, encoded, headers),
+                _request(port, "POST", _session_path(controller, path), encoded, headers),
                 {"route": name, "payload": payload},
             )
         _assert_json_response(
-            _request(port, "POST", "/api/stop", encoded, headers),
+            _request(
+                port,
+                "POST",
+                _session_path(controller, "/api/stop"),
+                encoded,
+                headers,
+            ),
             {"route": "stop"},
         )
 
@@ -140,7 +156,13 @@ def test_real_server_routes_call_current_controller_facades_with_exact_envelopes
             "confirm_text",
             lambda payload: {"ok": False, "error": "业务失败", "state": {"phase": "done"}},
         )
-        failure = _request(port, "POST", "/api/confirm", encoded, headers)
+        failure = _request(
+            port,
+            "POST",
+            _session_path(controller, "/api/confirm"),
+            encoded,
+            headers,
+        )
         _assert_json_response(
             failure,
             {"ok": False, "error": "业务失败", "state": {"phase": "done"}},
@@ -184,38 +206,126 @@ def test_invalid_missing_json_and_unknown_post_preserve_read_order(monkeypatch):
             lambda payload: toggle_payloads.append(payload) or {"payload": payload},
         )
         invalid = b"{invalid"
-        _assert_json_response(
-            _request(
-                port,
-                "POST",
-                "/api/settings",
-                invalid,
-                {"Content-Length": str(len(invalid))},
-            ),
-            {"payload": {}},
+        invalid_response = _request(
+            port,
+            "POST",
+            _session_path(controller, "/api/settings"),
+            invalid,
+            {
+                "Content-Type": "application/json",
+                "Content-Length": str(len(invalid)),
+            },
         )
-        _assert_json_response(_request(port, "POST", "/api/toggle", b""), {"payload": {}})
+        assert invalid_response[0] == 400
+        assert json.loads(invalid_response[2]) == {
+            "ok": False,
+            "schema_version": 1,
+            "error": "invalid_json",
+        }
+        empty = _request(
+            port,
+            "POST",
+            _session_path(controller, "/api/toggle"),
+            b"",
+            {"Content-Type": "application/json"},
+        )
+        assert empty[0] == 400
+        assert json.loads(empty[2]) == {
+            "ok": False,
+            "schema_version": 1,
+            "error": "empty_body",
+        }
         unknown = b'{"unknown": true}'
         response = _request(
             port,
             "POST",
-            "/api/unknown",
+            _session_path(controller, "/api/unknown"),
             unknown,
-            {"Content-Length": str(len(unknown))},
+            {
+                "Content-Type": "application/json",
+                "Content-Length": str(len(unknown)),
+            },
         )
         assert response[0] == 404
 
-    assert settings_payloads == [{}]
-    assert toggle_payloads == [{}]
+    assert settings_payloads == []
+    assert toggle_payloads == []
     assert decoded == ["{invalid", '{"unknown": true}']
 
 
 def test_handler_preserves_content_length_int_conversion():
     controller = WebGuiController(FakeApp())
-    handler = controller._make_handler()
-    request = SimpleNamespace(headers={"Content-Length": "not-an-int"})
-    with pytest.raises(ValueError):
-        handler._read_json(request)
+    with _running(controller) as port:
+        response = _request(
+            port,
+            "POST",
+            _session_path(controller, "/api/settings"),
+            b"{}",
+            {
+                "Content-Type": "application/json",
+                "Content-Length": "not-an-int",
+            },
+        )
+    assert response[0] == 400
+    assert json.loads(response[2]) == {
+        "ok": False,
+        "schema_version": 1,
+        "error": "invalid_content_length",
+    }
+
+
+def test_server_requires_session_and_enforces_json_body_boundaries():
+    controller = WebGuiController(FakeApp())
+    with _running(controller) as port:
+        unauthorized = _request(port, "GET", "/api/state")
+        assert unauthorized[0] == 401
+        assert json.loads(unauthorized[2])["error"] == "unauthorized"
+
+        cookie_response = _request(port, "GET", _session_path(controller, "/"))
+        assert cookie_response[0] == 200
+        assert "vpc_web_session=" in cookie_response[1]["set-cookie"]
+        cookie = cookie_response[1]["set-cookie"].split(";", 1)[0]
+        cookie_only = _request(
+            port,
+            "GET",
+            "/api/state",
+            headers={"Cookie": cookie},
+        )
+        assert cookie_only[0] == 200
+
+        wrong_type = _request(
+            port,
+            "POST",
+            _session_path(controller, "/api/settings"),
+            b"{}",
+            {"Content-Type": "text/plain", "Content-Length": "2"},
+        )
+        assert wrong_type[0] == 415
+        assert json.loads(wrong_type[2])["error"] == "json_required"
+
+        non_object = _request(
+            port,
+            "POST",
+            _session_path(controller, "/api/settings"),
+            b"[]",
+            {"Content-Type": "application/json", "Content-Length": "2"},
+        )
+        assert non_object[0] == 400
+        assert json.loads(non_object[2])["error"] == "json_object_required"
+
+        oversized = b"x" * (controller._web_gui_server.max_body_bytes + 1)
+        too_large = _request(
+            port,
+            "POST",
+            _session_path(controller, "/api/settings"),
+            oversized,
+            {
+                "Content-Type": "application/json",
+                "Content-Length": str(len(oversized)),
+            },
+        )
+        assert too_large[0] == 413
+        assert json.loads(too_large[2])["error"] == "body_too_large"
 
 
 def test_static_root_mime_headers_missing_and_traversal():
@@ -224,8 +334,8 @@ def test_static_root_mime_headers_missing_and_traversal():
     script_path = ASSETS_DIR / "main.js"
     script = script_path.read_bytes()
     with _running(controller) as port:
-        root = _request(port, "GET", "/")
-        explicit_index = _request(port, "GET", "/index.html")
+        root = _request(port, "GET", _session_path(controller, "/"))
+        explicit_index = _request(port, "GET", _session_path(controller, "/index.html"))
         for response in (root, explicit_index):
             status, headers, data = response
             assert status == 200
@@ -234,15 +344,17 @@ def test_static_root_mime_headers_missing_and_traversal():
             assert headers["cache-control"] == "no-store"
             assert headers["content-length"] == str(len(index))
 
-        status, headers, data = _request(port, "GET", "/main.js")
+        status, headers, data = _request(
+            port, "GET", _session_path(controller, "/main.js")
+        )
         assert status == 200
         assert data == script
         assert headers["content-type"] == mimetypes.guess_type(str(script_path))[0]
         assert headers["cache-control"] == "no-store"
         assert headers["content-length"] == str(len(script))
-        assert _request(port, "GET", "/missing.asset")[0] == 404
-        assert _request(port, "GET", "/../web_gui.py")[0] == 403
-        assert _request(port, "GET", "/api/unknown")[0] == 404
+        assert _request(port, "GET", _session_path(controller, "/missing.asset"))[0] == 404
+        assert _request(port, "GET", _session_path(controller, "/../web_gui.py"))[0] == 403
+        assert _request(port, "GET", _session_path(controller, "/api/unknown"))[0] == 404
 
 
 def test_start_server_dynamically_passes_factory_thread_and_port(monkeypatch):
@@ -342,7 +454,7 @@ def test_service_start_preserves_server_thread_identity_target_and_start(monkeyp
         thread_factory=FakeThread,
         find_port=lambda: 7000,
     )
-    assert result == "http://127.0.0.1:7001/"
+    assert result == f"http://127.0.0.1:7001/?session={controller._web_gui_session_token}"
     assert isinstance(controller._server, FakeServer)
     assert controller._server.address == ("127.0.0.1", 7000)
     assert controller._server.handler is handler

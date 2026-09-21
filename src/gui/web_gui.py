@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import mimetypes
+import secrets
 import shutil
 import socket
 import subprocess
@@ -63,7 +64,11 @@ class WebGuiController:
         self._recording_service = RecordingService(self)
         self._edit_service = EditService(self)
         self._window_target_service = WindowTargetService(self)
-        self._web_gui_server = WebGuiServer(self)
+        self._web_gui_session_token = secrets.token_urlsafe(32)
+        self._web_gui_server = WebGuiServer(
+            self,
+            session_token=self._web_gui_session_token,
+        )
         self._events = self._recording_service.events
         self._own_process_names = {
             "python.exe",
