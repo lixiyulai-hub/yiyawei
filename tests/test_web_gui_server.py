@@ -292,6 +292,8 @@ def test_server_requires_session_and_enforces_json_body_boundaries():
             headers={"Cookie": cookie},
         )
         assert cookie_only[0] == 200
+        static_without_session = _request(port, "GET", "/styles.css")
+        assert static_without_session[0] == 200
 
         wrong_type = _request(
             port,

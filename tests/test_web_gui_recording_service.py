@@ -25,6 +25,10 @@ class FakeRecorder:
         self.elapsed = 0.0
         self.activity = (0.0, 0.0, False)
         self.thresholds: list[float] = []
+        self.activity_config: dict[str, float] = {}
+
+    def configure_voice_activity(self, **kwargs: float) -> None:
+        self.activity_config.update(kwargs)
 
     def start(self) -> None:
         self.start_calls += 1
@@ -162,6 +166,11 @@ def test_start_recording_uses_current_describe_window_and_is_idempotent(monkeypa
     assert controller.state.use_fast is False
     assert controller.state.intelligent_output is False
     assert controller._recording is True
+    assert app.recorder.activity_config == {
+        "level_threshold": 0.015,
+        "calibration_sec": 0.35,
+        "speech_margin_sec": 0.18,
+    }
 
 
 def test_recording_service_has_no_local_normalization_helpers() -> None:

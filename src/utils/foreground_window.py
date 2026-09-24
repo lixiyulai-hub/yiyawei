@@ -14,6 +14,7 @@ HWND_TOP = 0
 PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 SW_SHOWNOACTIVATE = 4
 SW_RESTORE = 9
+SW_MAXIMIZE = 3
 SWP_NOSIZE = 0x0001
 SWP_NOMOVE = 0x0002
 SWP_NOZORDER = 0x0004
@@ -59,7 +60,11 @@ def _call_if_available(name: str, *args: object) -> bool:
 
 
 def _activate_window(hwnd: int, window: wintypes.HWND) -> bool:
-    user32.ShowWindow(window, SW_RESTORE)
+    # SW_RESTORE changes a maximized window to its previous normal size.
+    # Restore only minimized windows so activation never causes a resize flash.
+    is_iconic = getattr(user32, "IsIconic", None)
+    if is_iconic and is_iconic(window):
+        user32.ShowWindow(window, SW_RESTORE)
     _call_if_available("BringWindowToTop", window)
     _call_if_available("SetActiveWindow", window)
     _call_if_available("SetFocus", window)
@@ -109,6 +114,27 @@ def show_window_no_activate(hwnd: int | None) -> bool:
         return False
     window = wintypes.HWND(hwnd)
     user32.ShowWindow(window, SW_SHOWNOACTIVATE)
+    user32.SetWindowPos(
+        window,
+        None,
+        0,
+        0,
+        0,
+        0,
+        SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_SHOWWINDOW,
+    )
+    return True
+
+
+def is_window_maximized(hwnd: int | None) -> bool:
+    return bool(is_window(hwnd) and user32.IsZoomed(wintypes.HWND(hwnd)))
+
+
+def maximize_window_no_activate(hwnd: int | None) -> bool:
+    if not is_window(hwnd):
+        return False
+    window = wintypes.HWND(hwnd)
+    user32.ShowWindow(window, SW_MAXIMIZE)
     user32.SetWindowPos(
         window,
         None,

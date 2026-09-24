@@ -28,6 +28,8 @@ recorder:
     min_duration_sec: 1.2
     silence_sec: 2.0
     level_threshold: 0.015
+    calibration_sec: 0.35
+    speech_margin_sec: 0.18
     poll_interval_sec: 0.12
 
 asr:
@@ -80,7 +82,9 @@ injector:
   restore_clipboard: true
   paste_delay_ms: 150
   auto_paste: true
-  # GUI/热键默认不在控制台中断确认；高风险内容按 safety.block_auto_paste_on_high_risk 拦截。
+  manual_paste: true
+  strict_no_paste: false
+  # 高风险或 need_confirm 内容必须获得本次明确确认，不能静默放行。
   confirm_in_console: false
 
 storage:
@@ -89,7 +93,7 @@ storage:
 
 safety:
   enabled: true
-  block_auto_paste_on_high_risk: false
+  block_auto_paste_on_high_risk: true
 
 glossary:
   path: src/glossary/tech_terms.json

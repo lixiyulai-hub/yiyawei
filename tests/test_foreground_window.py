@@ -12,6 +12,8 @@ class FakeUser32:
         self.attachments: list[tuple[int, int, bool]] = []
         self.allow_calls: list[int] = []
         self.allow_fallback = False
+        self.iconic_windows: set[int] = set()
+        self.show_window_calls: list[tuple[int, int]] = []
 
     def _value(self, hwnd) -> int:
         return int(getattr(hwnd, "value", hwnd) or 0)
@@ -23,7 +25,11 @@ class FakeUser32:
         return self._value(hwnd) in self.valid_windows
 
     def ShowWindow(self, hwnd, _cmd):
+        self.show_window_calls.append((self._value(hwnd), _cmd))
         return True
+
+    def IsIconic(self, hwnd):
+        return self._value(hwnd) in self.iconic_windows
 
     def BringWindowToTop(self, hwnd):
         return True
@@ -76,6 +82,21 @@ def test_set_foreground_window_uses_thread_input_fallback(monkeypatch):
     assert (1, 10, True) in fake_user32.attachments
     assert (1, 20, True) in fake_user32.attachments
     assert fake_user32.attachments[-2:] == [(1, 20, False), (1, 10, False)]
+    assert fake_user32.show_window_calls == []
+
+
+def test_set_foreground_window_restores_only_minimized_target(monkeypatch):
+    fake_user32 = FakeUser32()
+    fake_user32.iconic_windows.add(222)
+    monkeypatch.setattr(foreground_window, "user32", fake_user32)
+    monkeypatch.setattr(foreground_window, "kernel32", FakeKernel32())
+    monkeypatch.setattr(foreground_window.time, "sleep", lambda _seconds: None)
+
+    assert foreground_window.set_foreground_window(222) is True
+    assert fake_user32.show_window_calls == [
+        (222, foreground_window.SW_RESTORE),
+        (222, foreground_window.SW_RESTORE),
+    ]
 
 
 def test_set_foreground_window_returns_true_when_already_foreground(monkeypatch):

@@ -98,6 +98,14 @@ class RecordingService:
             host.state.status = "录音中"
             host.state.updated_at = time.time()
 
+        auto_cfg = (host.app.config.get("recorder") or {}).get("auto_stop") or {}
+        configure_activity = getattr(host.app.recorder, "configure_voice_activity", None)
+        if callable(configure_activity):
+            configure_activity(
+                level_threshold=float(auto_cfg.get("level_threshold", 0.015)),
+                calibration_sec=float(auto_cfg.get("calibration_sec", 0.35)),
+                speech_margin_sec=float(auto_cfg.get("speech_margin_sec", 0.18)),
+            )
         host.app.recorder.start()
         self.recording = True
         host.app.logger.info("Web GUI 录音开始 | target_hwnd=%s", host._target_hwnd)

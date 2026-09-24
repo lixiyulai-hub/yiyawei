@@ -109,15 +109,21 @@ class WebGuiServer:
 
             def do_GET(self) -> None:
                 parsed = parse_url(self.path)
-                if not self._authorized(parsed):
-                    self._send_error_json(401, "unauthorized")
-                    return
                 if parsed.path == "/api/bootstrap":
+                    if not self._authorized(parsed):
+                        self._send_error_json(401, "unauthorized")
+                        return
                     self._send_json(host.bootstrap())
                     return
                 if parsed.path == "/api/state":
+                    if not self._authorized(parsed):
+                        self._send_error_json(401, "unauthorized")
+                        return
                     self._send_json(host.get_state())
                     return
+                # Static UI assets contain no session data. Keeping them
+                # unauthenticated lets CSS imports and ES modules load
+                # reliably in Chromium app mode; API routes remain protected.
                 self._serve_static(parsed.path)
 
             def do_POST(self) -> None:

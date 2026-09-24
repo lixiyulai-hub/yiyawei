@@ -203,6 +203,10 @@ class WindowTargetService:
         host = self.host
         if not hwnd or not is_window(hwnd):
             return False
+        # Exclude only the browser window owned by this Web GUI instance.
+        # Other Chrome/Edge windows are valid user paste targets.
+        if hwnd == host._browser_hwnd:
+            return False
         process_name = get_process_name(get_window_process_id(hwnd)).lower()
         if process_name in host._own_process_names:
             return False
@@ -214,9 +218,13 @@ class WindowTargetService:
         self,
         *,
         show_window_no_activate: Callable[[int | None], bool],
+        maximize_window_no_activate: Callable[[int | None], bool] | None = None,
+        was_maximized: bool = False,
     ) -> None:
         host = self.host
         if not host._browser_hwnd:
             host._browser_hwnd = host._find_browser_window()
         if host._browser_hwnd:
             show_window_no_activate(host._browser_hwnd)
+            if was_maximized and maximize_window_no_activate:
+                maximize_window_no_activate(host._browser_hwnd)

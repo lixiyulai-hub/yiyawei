@@ -31,7 +31,9 @@ from src.utils.foreground_window import (
     get_foreground_window,
     get_process_name,
     get_window_process_id,
+    is_window_maximized,
     is_window,
+    maximize_window_no_activate,
     show_window_no_activate,
 )
 
@@ -58,6 +60,7 @@ class WebGuiController:
         self._confirm_target_hwnd: int | None = None
         self._browser_process_id: int | None = None
         self._browser_hwnd: int | None = None
+        self._browser_was_maximized = False
         self._last_debug: dict[str, Any] = {}
         self._theme_color = "#eefaf6"
         self._stop_threads = threading.Event()
@@ -73,9 +76,6 @@ class WebGuiController:
         self._own_process_names = {
             "python.exe",
             "pythonw.exe",
-            "msedge.exe",
-            "msedgewebview2.exe",
-            "chrome.exe",
         }
         self._system_shell_process_names = {
             "explorer.exe",
@@ -222,6 +222,8 @@ class WebGuiController:
     def _restore_browser_window_position(self) -> None:
         return self._window_target_service._restore_browser_window_position(
             show_window_no_activate=show_window_no_activate,
+            maximize_window_no_activate=maximize_window_no_activate,
+            was_maximized=self._browser_was_maximized,
         )
 
     def _apply_events(self) -> None:
@@ -271,6 +273,8 @@ class WebGuiController:
         target_hwnd: int | None,
         output_script: str,
     ) -> None:
+        if self._browser_hwnd:
+            self._browser_was_maximized = is_window_maximized(self._browser_hwnd)
         self._recording_service._process_audio(
             audio, mode, use_fast, intelligent_output, target_hwnd, output_script
         )

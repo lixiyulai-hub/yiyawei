@@ -24,6 +24,8 @@ recorder:
     min_duration_sec: 1.2
     silence_sec: 2.0
     level_threshold: 0.015
+    calibration_sec: 0.35
+    speech_margin_sec: 0.18
     poll_interval_sec: 0.12
 
 asr:
@@ -73,6 +75,8 @@ injector:
   restore_clipboard: true
   paste_delay_ms: 150
   auto_paste: false
+  manual_paste: false
+  strict_no_paste: true
   confirm_in_console: false
 
 storage:
@@ -81,7 +85,7 @@ storage:
 
 safety:
   enabled: true
-  block_auto_paste_on_high_risk: false
+  block_auto_paste_on_high_risk: true
 
 glossary:
   path: src/glossary/tech_terms.json

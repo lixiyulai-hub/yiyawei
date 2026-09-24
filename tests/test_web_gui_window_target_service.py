@@ -196,7 +196,15 @@ def test_controller_facades_pass_current_module_dependencies(monkeypatch, contro
                 "get_process_name": process_name,
             },
         ),
-        ("restore", (), {"show_window_no_activate": show}),
+        (
+            "restore",
+            (),
+            {
+                "show_window_no_activate": show,
+                "maximize_window_no_activate": web_gui_module.maximize_window_no_activate,
+                "was_maximized": False,
+            },
+        ),
     ]
 
 
@@ -372,6 +380,8 @@ def test_remember_foreground_window_uses_host_validation_and_updates_state(monke
         (10, False, "editor.exe", False),
         (10, True, "PYTHON.EXE", False),
         (10, True, "Explorer.EXE", False),
+        (10, True, "chrome.exe", True),
+        (10, True, "msedge.exe", True),
         (10, True, "editor.exe", True),
     ],
 )
@@ -387,6 +397,16 @@ def test_valid_target_preserves_window_and_process_filters(
     monkeypatch.setattr(web_gui_module, "get_window_process_id", lambda value: 808)
     monkeypatch.setattr(web_gui_module, "get_process_name", lambda pid: process)
     assert controller._is_valid_target(hwnd) is expected
+
+
+def test_valid_target_excludes_only_tracked_web_gui_browser(monkeypatch, controller):
+    controller._browser_hwnd = 10
+    monkeypatch.setattr(web_gui_module, "is_window", lambda value: True)
+    monkeypatch.setattr(web_gui_module, "get_window_process_id", lambda value: 808)
+    monkeypatch.setattr(web_gui_module, "get_process_name", lambda pid: "chrome.exe")
+
+    assert controller._is_valid_target(10) is False
+    assert controller._is_valid_target(11) is True
 
 
 def test_restore_browser_window_finds_through_host_and_shows_without_activation(
